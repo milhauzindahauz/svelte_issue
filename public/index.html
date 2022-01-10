@@ -1,0 +1,87 @@
+<head>
+    <link rel="stylesheet" href="build/bundle.css" />
+    <title>testing ground</title>
+</head>
+
+<body>
+
+
+    <script src='build/bundle.js'>
+    </script>
+    
+    <script>
+
+        class MultiselectStore {
+            constructor() {
+                this.store = [];
+            }
+
+            addComponent(selector, options) {
+                this.store[selector.replace('.', '_')] = new MultiselectComponent({
+                    target: document.getElementById(`wrapper_${selector}`),
+                    props: {
+                        options,
+                        selector
+                    }
+                });
+            }
+
+            addRowComponent(selector, options, index) {
+                selector = `${selector}_${index}`;
+                this.store[selector.replace('.', '_')] = new MultiselectComponent({
+                    target: document.getElementById(selector),
+                    props: {
+                        options,
+                        selector
+                    }
+                });
+            }
+
+            removeComponent(selector) {
+                this.store[selector].cleanup();
+                delete this.store[selector];
+            }
+
+            removeRowComponent(selector, index) {
+                selector = `${selector}_${index}`;
+                this.store[selector].cleanup();
+                delete this.store[selector];
+            }
+
+            addComponentWithWrapper(selector, options, element) {
+                const wrapperElement = document.createElement('DIV')
+                wrapperElement.id = `wrapper_${selector}`
+                element.appendChild(wrapperElement)
+                this.store[selector.replace('.', '_')] = new MultiselectComponent({
+                    target: wrapperElement,
+                    props: {
+                        options,
+                        selector
+                    }
+                });
+            }
+
+        }
+
+        const multiselectStore = new MultiselectStore();
+
+    </script>
+
+    <script>
+        // functionality dynamically called. Two multiselect components should be create with different content.
+        multiselectStore.addComponentWithWrapper(
+            selector='multiselect_0',
+            options=['test_option_0', 'test_option_1', 'test_option_2'],
+            element=document.body
+        )
+        
+        multiselectStore.addComponentWithWrapper(
+            selector='multiselect_0',
+            options=['a', 'b', 'c'],
+            element=document.body
+        )
+
+
+
+    </script>
+</body>
