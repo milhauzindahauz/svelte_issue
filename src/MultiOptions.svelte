@@ -32,7 +32,7 @@
 	<ul class="dropdown-menu dropdown-menu-right select-menu"
 		in:slide="{{delay: 150, duration: 300, easing: quintOut}}"
 		out:fade="{{easing: quadIn, delay: 10, duration: 120}}"
-		style="width: {$inputReference.clientWidth}px; left: {!isProduction ? $inputReference.getBoundingClientRect().left : 'auto'}"
+		style="width: {$inputReference.clientWidth}px; left: {$inputReference.clientLeft}"
 	>
 		{#each $optionsStore as {value}}
 			<li class="select-item"

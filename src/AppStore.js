@@ -1,5 +1,5 @@
 import {derived, writable} from "svelte/store";
-import {getContext, setContext} from "svelte";
+import {getContext, hasContext, setContext} from "svelte";
 
 export const createStore = () => {
     const state = {
@@ -49,10 +49,10 @@ const createContextBound = (key) => {
 }
 
 export const getContextBound = (key) => {
-	let contextBoundInput = getContext(key);
-	if (!contextBoundInput) {
-		createContextBound(key);
-	}
-	contextBoundInput = getContext(key);
-	return contextBoundInput;
+	if (hasContext(key)) {
+        return getContext(key);
+	} else {
+        createContextBound(key);
+        return getContext(key);
+    }
 }
