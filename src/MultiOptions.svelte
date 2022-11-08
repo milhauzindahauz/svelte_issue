@@ -1,10 +1,10 @@
 <script>
-	import {slide, fade} from 'svelte/transition';
+	import {fade, slide} from 'svelte/transition';
 	import {quadIn, quintOut} from 'svelte/easing';
-    import {getContext} from "svelte";
-    import contextKey from "./key";
+	import contextKey from "./MultiApp.svelte";
+	import {getContextBound} from "./AppStore";
 
-    const {optionsStore, inputReference, loadOptions, selectedOptions, isOpen} = getContext(contextKey);
+	const {optionsStore, inputReference, selectedOptions, isOpen} = getContextBound(contextKey);
 	const clickCallback = (e) => {
 		const value = e.target.name;
 		mutateSelectOptions(value);

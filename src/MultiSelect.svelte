@@ -1,20 +1,14 @@
 <script>
-    import {afterUpdate, getContext, onMount} from 'svelte';
+    import {afterUpdate, onMount} from 'svelte';
     import MultiOptions from './MultiOptions.svelte';
     import MultiInput from './MultiInput.svelte';
+    import contextKey from "./MultiApp.svelte";
+    import {getContextBound} from "./AppStore";
 
     export let options;
     export let selector;
 
-    // will be unique across multiple instances
-    import contextKey from './key.js';
-
-    // save the state
-    import { setContext } from 'svelte';
-    import {createStore} from "./AppStore";
-    setContext(contextKey, createStore());
-
-    const {optionsStore, isChanged, inputReference, isOpen} = getContext(contextKey);
+    const {optionsStore, isChanged, inputReference, isOpen} = getContextBound(contextKey);
 
     onMount(() => {
         // noinspection JSUndeclaredVariable

@@ -1,9 +1,18 @@
 <script>
-    import {getContext, onMount} from 'svelte';
-    import contextKey from "./key";
+	import {onMount} from 'svelte';
+	import contextKey from "./MultiApp.svelte";
+	import {getContextBound} from "./AppStore";
 
-    // will be unique across multiple instances
-    const {optionsStore, isChanged, inputReference, loadOptions, selectedOptions, selectedOptionsString, isOpen} = getContext(contextKey);
+	const {
+		optionsStore,
+		isChanged,
+		inputReference,
+		loadOptions,
+		selectedOptions,
+		selectedOptionsString,
+		isOpen
+	} = getContextBound(contextKey);
+
 	let elementInput;
 
 	export let selector;

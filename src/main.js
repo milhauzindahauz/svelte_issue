@@ -1,4 +1,4 @@
-import MultiselectComponent from "./MultiSelect.svelte";
+import MultiselectComponent from "./MultiApp.svelte";
 
 export class MultiSelect {
     constructor(props, target) {

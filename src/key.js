@@ -1,2 +1,2 @@
-const contextKey = {}
-export default contextKey
+const createContextKey = () => Symbol('contextKey')
+export default createContextKey
