@@ -1,87 +1,40 @@
 <head>
-    <link rel="stylesheet" href="build/bundle.css" />
+    <link rel="stylesheet" href="build/bundle.css"/>
     <title>testing ground</title>
 </head>
-
 <body>
 
 
-    <script src='build/bundle.js'>
-    </script>
-    
-    <script>
+<div class="row">
+    <div id="server-rendered-html0"></div></div>
+<div class="row">
+    <div id="server-rendered-html1"></div></div>
 
-        class MultiselectStore {
-            constructor() {
-                this.store = [];
-            }
+<script src='build/bundle.js'>
+</script>
 
-            addComponent(selector, options) {
-                this.store[selector.replace('.', '_')] = new MultiselectComponent({
-                    target: document.getElementById(`wrapper_${selector}`),
-                    props: {
-                        options,
-                        selector
-                    }
-                });
-            }
-
-            addRowComponent(selector, options, index) {
-                selector = `${selector}_${index}`;
-                this.store[selector.replace('.', '_')] = new MultiselectComponent({
-                    target: document.getElementById(selector),
-                    props: {
-                        options,
-                        selector
-                    }
-                });
-            }
-
-            removeComponent(selector) {
-                this.store[selector].cleanup();
-                delete this.store[selector];
-            }
-
-            removeRowComponent(selector, index) {
-                selector = `${selector}_${index}`;
-                this.store[selector].cleanup();
-                delete this.store[selector];
-            }
-
-            addComponentWithWrapper(selector, options, element) {
-                const wrapperElement = document.createElement('DIV')
-                wrapperElement.id = `wrapper_${selector}`
-                element.appendChild(wrapperElement)
-                this.store[selector.replace('.', '_')] = new MultiselectComponent({
-                    target: wrapperElement,
-                    props: {
-                        options,
-                        selector
-                    }
-                });
-            }
-
+<script>
+    let multiselect0 = new MultiselectComponent({
+        target: document.querySelector('#server-rendered-html0'),
+        props: {
+            options: [
+                'test0',
+                'test1',
+                'test2'
+            ]
         }
+    });
 
-        const multiselectStore = new MultiselectStore();
-
-    </script>
-
-    <script>
-        // functionality dynamically called. Two multiselect components should be create with different content.
-        multiselectStore.addComponentWithWrapper(
-            selector='multiselect_0',
-            options=['test_option_0', 'test_option_1', 'test_option_2'],
-            element=document.body
-        )
-        
-        multiselectStore.addComponentWithWrapper(
-            selector='multiselect_0',
-            options=['a', 'b', 'c'],
-            element=document.body
-        )
-
-
+  let multiselect1 = new MultiselectComponent({
+        target: document.querySelector('#server-rendered-html1'),
+        props: {
+            options: [
+                'tryout0',
+                'tryout1',
+                'tryout2'
+            ]
+        }
+    });
 
     </script>
 </body>

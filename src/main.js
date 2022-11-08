@@ -1,4 +1,4 @@
-import MultiselectComponent, {cleanup, getSelectedOptions, setOptions} from "./App.svelte";
+import MultiselectComponent from "./MultiSelect.svelte";
 
 export class MultiSelect {
     constructor(props, target) {
@@ -6,24 +6,8 @@ export class MultiSelect {
             props, target
         );
     }
-
-    setOptions(options) {
-        setOptions(options);
-    }
-
-    getSelectedOptions() {
-        return getSelectedOptions();
-    }
-
-    remove() {
-        cleanup();
-    }
-
-}
-
-MultiSelect.prototype.destroy = () => {
-    cleanup()
 }
 
 window.MultiselectComponent = MultiSelect;
+
 

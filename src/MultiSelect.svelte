@@ -1,37 +1,32 @@
 <script>
-    import {getContext, onMount, setContext} from 'svelte';
-    import {derived} from 'svelte/store';
-    import Dropdown from './Dropdown.svelte';
+    import {afterUpdate, getContext, onMount} from 'svelte';
+    import MultiOptions from './MultiOptions.svelte';
+    import MultiInput from './MultiInput.svelte';
 
     export let options;
     export let selector;
-    export let elementWrapper;
-    let isOpen = false;
 
-    // reference holder
-    let inputElement = null;
+    // will be unique across multiple instances
+    import contextKey from './key.js';
 
-    const optionsStore = getContext('appStore');
+    // save the state
+    import { setContext } from 'svelte';
+    import {createStore} from "./AppStore";
+    setContext(contextKey, createStore());
+
+    const {optionsStore, isChanged, inputReference, isOpen} = getContext(contextKey);
 
     onMount(() => {
         // noinspection JSUndeclaredVariable
-        optionsStore.set(options.map(item => ({value: item, checked: false})));
+        const renderedOptions = options.map(item => ({value: item, checked: false}))
+        optionsStore.set(renderedOptions);
     });
 
-    const toggleOpen = (e) => {
-        e.preventDefault();
-        isOpen = !isOpen;
-    };
-
-    const loadData = (e) => {
-        const {detail: data} = e;
-        inputElement.dataset.value = JSON.stringify(data);
-        optionsStore.set($optionsStore.map(item => ({value: item.value, checked: data.includes(item.value)})));
-    };
 
     const clickOutside = (node) => {
         const handleClick = event => {
             if (node && !node.contains(event.target) && !event.defaultPrevented) {
+
                 node.dispatchEvent(
                     new CustomEvent('clickOutside', node)
                 );
@@ -47,19 +42,14 @@
         };
     };
 
-    let inputString = derived(optionsStore, (selectedOptions) => {
-        selectedOptions = selectedOptions.filter(item => item.checked);
-        if (selectedOptions.length > 1) {
-            return [selectedOptions.map(item => item.value).slice(0, -1).join(', '), selectedOptions.map(item => item.value).slice(-1)].join(' & ');
-        } else {
-            return selectedOptions.map(item => item.value).join(', ');
-
+    afterUpdate(() => {
+        if ($isChanged && !$isOpen) {
+            const changeEvent = new Event('change');
+            $inputReference.dispatchEvent(changeEvent);
         }
     });
 
-
 </script>
-
 
 <svelte:head>
     {#if !isProduction}
@@ -68,46 +58,9 @@
 </svelte:head>
 
 <div style="position: relative"
-     bind:this={elementWrapper}
      use:clickOutside
-     on:clickOutside={()=> isOpen = false}
+     on:clickOutside={()=> isOpen.set(false)}
 >
-    <input bind:value={$inputString}
-           bind:this={inputElement}
-           on:click={toggleOpen}
-           on:loadData={loadData}
-           name={selector}
-           id={selector}
-           class="form-control"
-           style="background-color: #ffffff"
-           data-type="scalar:multiselect"
-           placeholder="Click to select..."
-           type="text"
-           readonly
-    />
-    <img alt="arrow caret of a multiselect element"
-         src={(isProduction) ? "/static/img/arrow_down.svg":"/img/arrow.svg"}
-         class="select-menu-caret"
-         class:open={isOpen}
-    />
-    <Dropdown isOpen={isOpen} inputElement={inputElement}/>
-
+    <MultiInput selector={selector}/>
+    <MultiOptions/>
 </div>
-
-<style>
-    .select-menu-caret {
-        overflow: hidden;
-        transition-duration: 0.45s;
-        transition-property: transform;
-        width: 10px;
-        height: 10px;
-        z-index: 1000;
-        position: absolute;
-        top: calc(50% - 5px);
-        left: calc(100% - 20px);
-    }
-
-    .open {
-        transform: rotate(180deg);
-    }
-</style>

@@ -8,3 +8,9 @@
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+.idea
+
+public/build
+
+pnpm-lock.yaml
