@@ -1,6 +1,6 @@
 <script>
 	import {onMount} from 'svelte';
-	import contextKey from "./MultiApp.svelte";
+	import contextKey from "./MultiKeyInstance.svelte";
 	import {getContextBound} from "./AppStore";
 
 	const {

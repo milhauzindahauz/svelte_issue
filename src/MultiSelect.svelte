@@ -2,7 +2,7 @@
     import {afterUpdate, onMount} from 'svelte';
     import MultiOptions from './MultiOptions.svelte';
     import MultiInput from './MultiInput.svelte';
-    import contextKey from "./MultiApp.svelte";
+    import contextKey from "./MultiKeyInstance.svelte";
     import {getContextBound} from "./AppStore";
 
     export let options;

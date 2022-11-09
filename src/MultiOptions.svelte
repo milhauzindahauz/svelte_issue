@@ -1,7 +1,7 @@
 <script>
 	import {fade, slide} from 'svelte/transition';
 	import {quadIn, quintOut} from 'svelte/easing';
-	import contextKey from "./MultiApp.svelte";
+	import contextKey from "./MultiKeyInstance.svelte";
 	import {getContextBound} from "./AppStore";
 
 	const {optionsStore, inputReference, selectedOptions, isOpen} = getContextBound(contextKey);
