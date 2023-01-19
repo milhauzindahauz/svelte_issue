@@ -1,13 +1,7 @@
-import MultiselectComponent from "./MultiApp.svelte";
+import App from './App.svelte'
 
-export class MultiSelect {
-    constructor(props, target) {
-        this.component = new MultiselectComponent(
-            props, target
-        );
-    }
-}
+const app = new App({
+  target: document.getElementById('app'),
+})
 
-window.MultiselectComponent = MultiSelect;
-
-
+export default app
